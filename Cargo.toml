@@ -1,0 +1,19 @@
+[package]
+name = "magic_greyscale"
+version = "0.1.0"
+edition = "2021"
+description = "CLI tool to search, download, greyscale-convert, and print MTG proxy sheets"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+image = "0.25"
+printpdf = "0.7"
+indicatif = "0.17"
+anyhow = "1"
+colored = "2"
+dirs = "5"
+urlencoding = "2"

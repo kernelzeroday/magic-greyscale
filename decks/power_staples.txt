@@ -1,0 +1,72 @@
+Deck
+1 Black Lotus (VMA) 4
+1 Mox Sapphire (VMA) 2
+1 Mox Ruby (VMA) 6
+1 Mox Jet (VMA) 5
+1 Mox Pearl (VMA) 7
+1 Mox Emerald (VMA) 3
+1 Ancestral Recall (VMA) 1
+1 Time Walk (VMA) 8
+1 Timetwister (VMA) 9
+1 Sol Ring (C21) 263
+1 Mana Crypt (2XM) 270
+1 Mana Vault (UMA) 229
+1 Chrome Mox (2XM) 240
+1 Mox Diamond (TPR) 228
+1 Mox Opal (2XM) 275
+1 Lotus Petal (TMP) 294
+1 Lion's Eye Diamond (MIR) 307
+1 Grim Monolith (ULG) 126
+1 Ancient Tomb (UMA) 236
+1 Jeweled Lotus (CMR) 319
+1 Arcane Signet (ELD) 331
+1 Force of Will (ALL) 28
+1 Force of Negation (MH1) 52
+1 Mana Drain (IMA) 65
+1 Pact of Negation (A25) 68
+1 Fierce Guardianship (C20) 35
+1 Deflecting Swat (C20) 50
+1 Mental Misstep (NPH) 38
+1 Swan Song (THS) 65
+1 Cyclonic Rift (2XM) 47
+1 Rhystic Study (PCY) 45
+1 Mystic Remora (ICE) 87
+1 Necropotence (IMA) 98
+1 Sylvan Library (EMA) 187
+1 Smothering Tithe (RNA) 22
+1 Vampiric Tutor (VMA) 137
+1 Imperial Seal (2X2) 79
+1 Mystical Tutor (EMA) 62
+1 Enlightened Tutor (EMA) 9
+1 Worldly Tutor (6ED) 269
+1 Gamble (EMA) 132
+1 Thassa's Oracle (THB) 73
+1 Dockside Extortionist (C19) 24
+1 Opposition Agent (CMR) 141
+1 Notion Thief (A25) 211
+1 Consecrated Sphinx (IMA) 47
+1 Emrakul, the Aeons Torn (UMA) 4
+1 Toxic Deluge (EMA) 108
+1 Swords to Plowshares (IMA) 36
+1 Path to Exile (2XM) 25
+1 Abrupt Decay (GTC) 141
+1 Assassin's Trophy (GRN) 152
+1 Teferi's Protection (C17) 8
+1 Silence (M11) 35
+1 Sensei's Divining Top (EMA) 232
+1 Skullclamp (C21) 258
+1 Isochron Scepter (2XM) 264
+1 Aetherflux Reservoir (KLD) 192
+1 The One Ring (LTR) 246
+1 Strip Mine (VMA) 316
+1 Wasteland (EMA) 248
+1 Command Tower (C21) 284
+1 City of Brass (MMA) 221
+1 Mana Confluence (JOU) 163
+1 Cavern of Souls (UMA) 237
+1 Urborg, Tomb of Yawgmoth (UMA) 254
+1 Yavimaya, Cradle of Growth (MH2) 261
+1 Gaea's Cradle (USG) 321
+1 Serra's Sanctum (USG) 325
+1 Tolarian Academy (USG) 330
+1 Mishra's Workshop (VMA) 305

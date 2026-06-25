@@ -1,0 +1,21 @@
+Deck
+1 Flooded Strand (KTK) 233
+1 Polluted Delta (KTK) 239
+1 Bloodstained Mire (KTK) 230
+1 Wooded Foothills (KTK) 249
+1 Windswept Heath (KTK) 248
+1 Scalding Tarn (MH2) 244
+1 Misty Rainforest (MH2) 250
+1 Verdant Catacombs (MH2) 260
+1 Marsh Flats (MH2) 248
+1 Arid Mesa (MH2) 244
+1 Tundra (VMA) 322
+1 Underground Sea (VMA) 323
+1 Badlands (VMA) 291
+1 Taiga (VMA) 317
+1 Savannah (VMA) 311
+1 Volcanic Island (VMA) 324
+1 Tropical Island (VMA) 321
+1 Bayou (VMA) 293
+1 Scrubland (VMA) 312
+1 Plateau (VMA) 308
