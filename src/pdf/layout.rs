@@ -53,19 +53,19 @@ impl LayoutConfig {
         (card_count + self.cards_per_page() - 1) / self.cards_per_page()
     }
 
-    fn content_width(&self) -> f64 {
+    pub fn content_width(&self) -> f64 {
         self.cols as f64 * self.card_width_mm
     }
 
-    fn content_height(&self) -> f64 {
+    pub fn content_height(&self) -> f64 {
         self.rows as f64 * self.card_height_mm
     }
 
-    fn margin_left(&self) -> f64 {
+    pub fn margin_left(&self) -> f64 {
         (self.paper.width_mm - self.content_width()) / 2.0
     }
 
-    fn margin_bottom(&self) -> f64 {
+    pub fn margin_bottom(&self) -> f64 {
         (self.paper.height_mm - self.content_height()) / 2.0
     }
 
@@ -85,22 +85,30 @@ impl LayoutConfig {
         let mut lines = Vec::new();
         let ml = self.margin_left();
         let mb = self.margin_bottom();
+        let mark_len = 5.0_f64;
+        let gap = 1.0_f64;
 
-        // vertical lines at card boundaries (including outer edges)
         for col in 0..=self.cols {
             let x = ml + col as f64 * self.card_width_mm;
             lines.push(CutLine {
-                x1_mm: x, y1_mm: mb,
-                x2_mm: x, y2_mm: mb + self.content_height(),
+                x1_mm: x, y1_mm: mb + self.content_height() + gap,
+                x2_mm: x, y2_mm: mb + self.content_height() + gap + mark_len,
+            });
+            lines.push(CutLine {
+                x1_mm: x, y1_mm: mb - gap - mark_len,
+                x2_mm: x, y2_mm: mb - gap,
             });
         }
 
-        // horizontal lines at card boundaries (including outer edges)
         for row in 0..=self.rows {
             let y = mb + row as f64 * self.card_height_mm;
             lines.push(CutLine {
-                x1_mm: ml, y1_mm: y,
-                x2_mm: ml + self.content_width(), y2_mm: y,
+                x1_mm: ml - gap - mark_len, y1_mm: y,
+                x2_mm: ml - gap, y2_mm: y,
+            });
+            lines.push(CutLine {
+                x1_mm: ml + self.content_width() + gap, y1_mm: y,
+                x2_mm: ml + self.content_width() + gap + mark_len, y2_mm: y,
             });
         }
 

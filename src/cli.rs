@@ -60,6 +60,27 @@ pub enum Commands {
         #[arg(long, default_value = "0")]
         brightness: i32,
     },
+    /// Import decks from MTGA log and generate print sheets
+    Arena {
+        /// Path to MTGA Player.log (auto-detected if omitted)
+        #[arg(short, long)]
+        log: Option<String>,
+        #[arg(short, long, default_value = "arena_output.pdf")]
+        output: String,
+        #[arg(short, long, default_value = "a4")]
+        paper: PaperSize,
+        #[arg(long, default_value = "true")]
+        greyscale: bool,
+        #[arg(long, default_value = "10")]
+        contrast: f32,
+        #[arg(long, default_value = "0")]
+        brightness: i32,
+        #[arg(long, default_value = "0")]
+        toner_save: u32,
+        /// Also export a Cockatrice .cod deck file
+        #[arg(long)]
+        cockatrice: Option<String>,
+    },
     /// Generate a print-ready PDF from Pokemon TCG cards
     Pokemon {
         /// Pokemon set IDs (prefixed with "set:") or card name search queries. Can specify multiple.

@@ -2,39 +2,62 @@ use std::path::Path;
 use anyhow::{Context, Result};
 use image::DynamicImage;
 
-/// Samples the outer ~5px ring of the image and returns the median RGB color.
-/// This is used to detect the border color for bleed painting.
-pub fn detect_border_color(img: &DynamicImage) -> [u8; 3] {
+/// Fills the white rounded-corner areas of a card image with the detected
+/// border color so that adjacent cards on a print sheet have no white seams.
+pub fn fill_rounded_corners(img: &mut DynamicImage) {
     let rgb = img.to_rgb8();
     let (w, h) = rgb.dimensions();
-    let border = 5u32;
 
-    let mut r_vals: Vec<u8> = Vec::new();
-    let mut g_vals: Vec<u8> = Vec::new();
-    let mut b_vals: Vec<u8> = Vec::new();
-
-    for y in 0..h {
-        for x in 0..w {
-            if x < border || x >= w.saturating_sub(border)
-                || y < border || y >= h.saturating_sub(border)
-            {
-                let pixel = rgb.get_pixel(x, y);
-                r_vals.push(pixel[0]);
-                g_vals.push(pixel[1]);
-                b_vals.push(pixel[2]);
-            }
-        }
+    // Sample the edge midpoints to find the border color (avoiding corners)
+    let mut samples = Vec::new();
+    let mid_x = w / 2;
+    let mid_y = h / 2;
+    for &x in &[mid_x.saturating_sub(20), mid_x, mid_x.saturating_add(20).min(w - 1)] {
+        samples.push(rgb.get_pixel(x, 0));
+        samples.push(rgb.get_pixel(x, h - 1));
+    }
+    for &y in &[mid_y.saturating_sub(20), mid_y, mid_y.saturating_add(20).min(h - 1)] {
+        samples.push(rgb.get_pixel(0, y));
+        samples.push(rgb.get_pixel(w - 1, y));
     }
 
-    fn median(vals: &mut Vec<u8>) -> u8 {
-        if vals.is_empty() {
-            return 0;
-        }
+    fn median_channel(vals: &mut Vec<u8>) -> u8 {
         vals.sort_unstable();
         vals[vals.len() / 2]
     }
 
-    [median(&mut r_vals), median(&mut g_vals), median(&mut b_vals)]
+    let border_r = median_channel(&mut samples.iter().map(|p| p[0]).collect());
+    let border_g = median_channel(&mut samples.iter().map(|p| p[1]).collect());
+    let border_b = median_channel(&mut samples.iter().map(|p| p[2]).collect());
+
+    let border_pixel = image::Rgb([border_r, border_g, border_b]);
+
+    // The rounded corner radius on card images is roughly 3% of the shorter dimension
+    let corner_radius = (w.min(h) as f64 * 0.04) as u32;
+    let threshold = 180u8;
+
+    let mut out = rgb.clone();
+
+    for y in 0..h {
+        for x in 0..w {
+            let in_corner = (x < corner_radius && y < corner_radius)
+                || (x >= w - corner_radius && y < corner_radius)
+                || (x < corner_radius && y >= h - corner_radius)
+                || (x >= w - corner_radius && y >= h - corner_radius);
+
+            if !in_corner {
+                continue;
+            }
+
+            let p = rgb.get_pixel(x, y);
+            let brightness = (p[0] as u16 + p[1] as u16 + p[2] as u16) / 3;
+            if brightness as u8 > threshold {
+                out.put_pixel(x, y, border_pixel);
+            }
+        }
+    }
+
+    *img = DynamicImage::ImageRgb8(out);
 }
 
 pub fn convert_to_greyscale(

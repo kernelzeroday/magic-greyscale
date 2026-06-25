@@ -1,0 +1,31 @@
+Deck
+2 Black Lotus (VMA) 4
+2 Mox Sapphire (VMA) 2
+2 Mox Ruby (VMA) 6
+2 Mox Jet (VMA) 5
+2 Mox Pearl (VMA) 7
+2 Mox Emerald (VMA) 3
+2 Ancestral Recall (VMA) 1
+2 Time Walk (VMA) 8
+2 Timetwister (VMA) 9
+1 Sol Ring (C21) 263
+1 Library of Alexandria (VMA) 303
+1 Demonic Tutor (UMA) 93
+1 Force of Will (ALL) 28
+1 Jace, the Mind Sculptor (2XM) 56
+1 Liliana of the Veil (UMA) 104
+1 Tarmogoyf (UMA) 187
+1 Dark Confidant (2XM) 81
+1 Snapcaster Mage (UMA) 71
+1 Lightning Bolt (STA) 42
+1 Swords to Plowshares (STA) 10
+1 Wrath of God (AKR) 46
+1 Counterspell (STA) 15
+1 Birds of Paradise (RNA) 150
+1 Serra Angel (IMA) 30
+1 Shivan Dragon (M20) 335
+1 Channel (VMA) 200
+1 Balance (VMA) 12
+2 Necropotence (IMA) 98
+1 Mind Twist (VMA) 128
+1 Mana Drain (IMA) 65

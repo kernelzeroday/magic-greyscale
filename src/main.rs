@@ -4,8 +4,9 @@ mod deck;
 mod imaging;
 mod pdf;
 mod pokemon;
+mod arena;
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 use std::path::Path;
 use anyhow::{Context, Result};
 use clap::Parser;
@@ -17,7 +18,7 @@ use scryfall::client::ScryfallClient;
 use scryfall::models::Card;
 use imaging::cache::ImageCache;
 use imaging::download::download_card_images;
-use imaging::greyscale::convert_to_greyscale;
+use imaging::greyscale::{convert_to_greyscale, fill_rounded_corners};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -42,6 +43,10 @@ async fn main() -> Result<()> {
         Commands::Pokemon { sources, output, paper, greyscale, contrast, brightness, toner_save } => {
             let cache = ImageCache::new()?;
             cmd_pokemon(&cache, &sources, &output, &paper, greyscale, contrast, brightness, toner_save).await
+        }
+        Commands::Arena { log, output, paper, greyscale, contrast, brightness, toner_save, cockatrice } => {
+            let cache = ImageCache::new()?;
+            cmd_arena(&client, &cache, log.as_deref(), &output, &paper, greyscale, contrast, brightness, toner_save, cockatrice.as_deref()).await
         }
     }
 }
@@ -108,22 +113,24 @@ async fn cmd_print(
     toner_save: u32,
 ) -> Result<()> {
     let mut all_cards: Vec<(Card, u32)> = Vec::new();
-    let mut seen_ids = HashSet::new();
+    let mut seen_ids: HashMap<String, usize> = HashMap::new();
 
     for source in sources {
         println!("Resolving: {}", source.dimmed());
         let cards = resolve_source(client, source).await?;
         let before = all_cards.len();
-        let mut dupes = 0usize;
+        let mut merged = 0usize;
         for (card, qty) in cards {
-            if seen_ids.insert(card.id.clone()) {
-                all_cards.push((card, qty));
+            if let Some(&idx) = seen_ids.get(&card.id) {
+                all_cards[idx].1 += qty;
+                merged += 1;
             } else {
-                dupes += 1;
+                seen_ids.insert(card.id.clone(), all_cards.len());
+                all_cards.push((card, qty));
             }
         }
-        println!("  +{} cards ({} dupes skipped)",
-            all_cards.len() - before, dupes);
+        println!("  +{} cards ({} merged)",
+            all_cards.len() - before, merged);
     }
 
     let total_cards: u32 = all_cards.iter().map(|(_, q)| q).sum();
@@ -145,6 +152,8 @@ async fn cmd_print(
         } else {
             image::open(path).context("failed to open image")?
         };
+        let mut img = img;
+        fill_rounded_corners(&mut img);
         processed.push((img, *qty));
     }
 
@@ -154,7 +163,7 @@ async fn cmd_print(
         let filler_needed = layout.cards_per_page() - remainder;
         println!("Filling {} empty slots with JP full-art lands...", filler_needed);
         let filler_cards = client.search(
-            "set:sta number>=64 type:basic unique:art",
+            "set:neo frame:fullart t:basic",
             filler_needed,
         ).await?;
         let filler_with_qty: Vec<(Card, u32)> = filler_cards.into_iter().map(|c| (c, 1)).collect();
@@ -165,7 +174,9 @@ async fn cmd_print(
             } else {
                 image::open(path).context("failed to open image")?
             };
-            processed.push((img, *qty));
+            let mut img = img;
+        fill_rounded_corners(&mut img);
+        processed.push((img, *qty));
         }
     }
 
@@ -287,6 +298,8 @@ async fn cmd_pokemon(
         } else {
             image::open(path).context("failed to open image")?
         };
+        let mut img = img;
+        fill_rounded_corners(&mut img);
         processed.push((img, *qty));
     }
 
@@ -304,6 +317,92 @@ async fn cmd_pokemon(
                 .with_context(|| format!("failed to create output directory: {:?}", parent))?;
         }
     }
+
+    pdf::generator::generate_pdf(&processed, &layout, true, Path::new(output))?;
+    println!("{} {}", "Saved:".green().bold(), output);
+    Ok(())
+}
+
+async fn cmd_arena(
+    client: &ScryfallClient,
+    cache: &ImageCache,
+    log_path: Option<&str>,
+    output: &str,
+    paper: &cli::PaperSize,
+    greyscale: bool,
+    contrast: f32,
+    brightness: i32,
+    toner_save: u32,
+    cockatrice: Option<&str>,
+) -> Result<()> {
+    let log_file = match log_path {
+        Some(p) => p.to_string(),
+        None => arena::find_log_file()?,
+    };
+    println!("Reading MTGA log: {}", log_file);
+
+    let decks = arena::extract_decks_from_log(&log_file)?;
+    println!("Found {} decks in log", decks.len());
+
+    let all_ids = arena::extract_all_card_ids(&log_file)?;
+    println!("{} unique arena card IDs across all decks", all_ids.len());
+
+    println!("Resolving arena IDs via Scryfall...");
+    let cards_with_qty = arena::resolve_arena_ids(client, &all_ids).await?;
+    println!("Resolved {} cards", cards_with_qty.len());
+
+    if cards_with_qty.is_empty() {
+        anyhow::bail!("no cards found — try playing a game in Arena first so decks appear in the log");
+    }
+
+    if let Some(cod_path) = cockatrice {
+        write_cockatrice(&cards_with_qty, Path::new(cod_path))?;
+        println!("{} {}", "Cockatrice:".green().bold(), cod_path);
+    }
+
+    let image_paths = download_card_images(client, &cards_with_qty, cache).await?;
+
+    println!("Processing images...");
+    let mut processed: Vec<(DynamicImage, u32)> = Vec::new();
+    for (path, qty) in &image_paths {
+        let img = if greyscale {
+            convert_to_greyscale(path, contrast, brightness, toner_save)?
+        } else {
+            image::open(path).context("failed to open image")?
+        };
+        let mut img = img;
+        fill_rounded_corners(&mut img);
+        processed.push((img, *qty));
+    }
+
+    let layout = pdf::layout::LayoutConfig::new(paper);
+    let total_cards: u32 = processed.iter().map(|(_, q)| *q).sum();
+
+    let remainder = total_cards as usize % layout.cards_per_page();
+    if remainder > 0 {
+        let filler_needed = layout.cards_per_page() - remainder;
+        println!("Filling {} empty slots with full-art lands...", filler_needed);
+        let filler_cards = client.search("set:neo frame:fullart t:basic", filler_needed).await?;
+        let filler_with_qty: Vec<(Card, u32)> = filler_cards.into_iter().map(|c| (c, 1)).collect();
+        let filler_paths = download_card_images(client, &filler_with_qty, cache).await?;
+        for (path, qty) in &filler_paths {
+            let img = if greyscale {
+                convert_to_greyscale(path, contrast, brightness, toner_save)?
+            } else {
+                image::open(path).context("failed to open image")?
+            };
+            let mut img = img;
+        fill_rounded_corners(&mut img);
+        processed.push((img, *qty));
+        }
+    }
+
+    let total_with_filler: u32 = processed.iter().map(|(_, q)| *q).sum();
+    let pages = layout.pages_needed(total_with_filler as usize);
+    println!("Generating PDF: {} pages, {} paper", pages, match paper {
+        cli::PaperSize::A4 => "A4",
+        cli::PaperSize::Letter => "Letter",
+    });
 
     pdf::generator::generate_pdf(&processed, &layout, true, Path::new(output))?;
     println!("{} {}", "Saved:".green().bold(), output);
@@ -351,9 +450,14 @@ async fn resolve_deck_entries(client: &ScryfallClient, deck_list: &deck::models:
     for entry in &set_number_entries {
         let set = entry.set_code.as_ref().unwrap();
         let num = entry.collector_number.as_ref().unwrap();
-        let card = client.card_by_set_number(set, num).await
-            .with_context(|| format!("failed to find: {} ({} {})", entry.card_name, set, num))?;
-        cards.push((card, entry.quantity));
+        match client.card_by_set_number(set, num).await {
+            Ok(card) => cards.push((card, entry.quantity)),
+            Err(_) => {
+                eprintln!("  {} ({} {}) not found by set/number, trying fuzzy name...",
+                    entry.card_name, set, num);
+                name_only_entries.push(*entry);
+            }
+        }
     }
 
     if !name_only_entries.is_empty() {

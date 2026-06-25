@@ -22,6 +22,7 @@ pub struct Card {
     pub collector_number: String,
     pub image_uris: Option<ImageUris>,
     pub card_faces: Option<Vec<CardFace>>,
+    pub arena_id: Option<i64>,
 }
 
 impl Card {

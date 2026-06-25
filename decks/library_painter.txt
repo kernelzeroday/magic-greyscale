@@ -1,0 +1,43 @@
+Deck
+4 Force of Will (SOA) 19
+3 Island (SOS) 275
+4 Library of Alexandria (SPG) 0
+2 Brainstorm (STA) 13
+4 Mana Drain (OTP) 11
+2 Polluted Delta (MH3) 224
+1 Flooded Strand (MH3) 220
+4 Misty Rainforest (SPG) 111
+1 Undercity Sewers (MKM) 270
+3 Snapcaster Mage (SIS) 23
+4 Vampiric Tutor (SOA) 35
+3 The One Ring (LTR) 246
+2 Grindstone (OTP) 62
+3 Hydroponics Architect (Y25) 6
+2 Stifle (SCG) 52
+1 Scalding Tarn (SPG) 112
+2 Painter's Servant (SPG) 0
+2 Watery Grave (GRN) 259
+2 Daze (SOA) 15
+3 Dark Ritual (STA) 26
+4 Mishra's Bauble (BRR) 34
+1 Tale's End (M20) 77
+1 Mystic Sanctuary (ELD) 247
+1 Flusterstorm (SOA) 18
+1 Demonic Tutor (STA) 27
+
+Sideboard
+1 Lutri, the Spellchaser (IKO) 227
+1 Thoughtseize (AKR) 127
+1 Ponder (MAR) 13
+1 Spell Pierce (SOA) 23
+1 Hydroponics Architect (Y25) 6
+1 Lurrus of the Dream-Den (IKO) 226
+1 Jace, the Mind Sculptor (BLC) 75
+1 Snapcaster Mage (SIS) 23
+1 Orcish Bowmasters (LTR) 103
+1 Fatal Push (FCA) 9
+1 Leyline of the Void (M20) 107
+1 Pithing Needle (MID) 257
+1 Mystical Tutor (MIR) 80
+1 Rhystic Study (WOT) 25
+1 Dark Ritual (STA) 26

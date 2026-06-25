@@ -7,7 +7,7 @@ use printpdf::*;
 use printpdf::path::{PaintMode, WindingOrder};
 
 use super::layout::LayoutConfig;
-use crate::imaging::greyscale::detect_border_color;
+
 
 fn encode_jpeg(img: &DynamicImage) -> Result<(Vec<u8>, u32, u32)> {
     let rgb = img.to_rgb8();
@@ -52,35 +52,27 @@ pub fn generate_pdf(
         let (page_ref, layer_ref) = &pages[page_idx];
         let layer = doc.get_page(*page_ref).get_layer(*layer_ref);
 
+        let grid_bleed = 1.0_f32;
+        let gx1 = layout.margin_left() as f32 - grid_bleed;
+        let gy1 = layout.margin_bottom() as f32 - grid_bleed;
+        let gx2 = layout.margin_left() as f32 + layout.content_width() as f32 + grid_bleed;
+        let gy2 = layout.margin_bottom() as f32 + layout.content_height() as f32 + grid_bleed;
+
+        layer.set_fill_color(Color::Rgb(Rgb::new(0.0, 0.0, 0.0, None)));
+        let bg_rect = Polygon {
+            rings: vec![vec![
+                (Point::new(Mm(gx1), Mm(gy1)), false),
+                (Point::new(Mm(gx2), Mm(gy1)), false),
+                (Point::new(Mm(gx2), Mm(gy2)), false),
+                (Point::new(Mm(gx1), Mm(gy2)), false),
+            ]],
+            mode: PaintMode::Fill,
+            winding_order: WindingOrder::NonZero,
+        };
+        layer.add_polygon(bg_rect);
+
         for (slot_idx, card_img) in chunk.iter().enumerate() {
             let slot = &positions[slot_idx];
-
-            // Paint a bleed rectangle extending 0.5mm beyond the card boundary
-            // so imprecise cuts show the border color instead of white paper.
-            let bleed_mm = 0.5_f32;
-            let border_color = detect_border_color(card_img);
-            let r_f = border_color[0] as f32 / 255.0;
-            let g_f = border_color[1] as f32 / 255.0;
-            let b_f = border_color[2] as f32 / 255.0;
-
-            layer.set_fill_color(Color::Rgb(Rgb::new(r_f, g_f, b_f, None)));
-
-            let bx1 = slot.x_mm as f32 - bleed_mm;
-            let by1 = slot.y_mm as f32 - bleed_mm;
-            let bx2 = slot.x_mm as f32 + layout.card_width_mm as f32 + bleed_mm;
-            let by2 = slot.y_mm as f32 + layout.card_height_mm as f32 + bleed_mm;
-
-            let bleed_rect = Polygon {
-                rings: vec![vec![
-                    (Point::new(Mm(bx1), Mm(by1)), false),
-                    (Point::new(Mm(bx2), Mm(by1)), false),
-                    (Point::new(Mm(bx2), Mm(by2)), false),
-                    (Point::new(Mm(bx1), Mm(by2)), false),
-                ]],
-                mode: PaintMode::Fill,
-                winding_order: WindingOrder::NonZero,
-            };
-            layer.add_polygon(bleed_rect);
 
             let (jpeg_data, w, h) = encode_jpeg(card_img)?;
 

@@ -1,0 +1,120 @@
+Deck
+4 Brainstorm (STA) 13
+4 Counterspell (STA) 15
+4 Dark Ritual (STA) 26
+4 Demonic Tutor (STA) 27
+4 Despark (STA) 59
+4 Doom Blade (STA) 28
+4 Faithless Looting (STA) 38
+4 Gift of Estates (STA) 5
+4 Gods Willing (STA) 7
+4 Growth Spiral (STA) 61
+4 Harmonize (STA) 52
+4 Krosan Grip (STA) 53
+4 Lightning Bolt (STA) 42
+4 Lightning Helix (STA) 62
+4 Mana Tithe (STA) 8
+4 Memory Lapse (STA) 16
+4 Mind's Desire (STA) 17
+4 Mizzix's Mastery (STA) 43
+4 Natural Order (STA) 54
+4 Opt (STA) 19
+4 Putrefy (STA) 63
+4 Regrowth (STA) 56
+4 Sign in Blood (STA) 32
+4 Stone Rain (STA) 45
+4 Strategic Planning (STA) 20
+4 Swords to Plowshares (STA) 10
+4 Tezzeret's Gambit (STA) 21
+4 Thrill of Possibility (STA) 46
+4 Time Warp (STA) 22
+4 Urza's Rage (STA) 47
+4 Village Rites (STA) 35
+4 Weather the Storm (STA) 58
+4 Whirlwind Denial (STA) 23
+4 Channel (STA) 50
+4 Claim the Firstborn (STA) 37
+4 Chaos Warp (STA) 36
+4 Increasing Devotion (STA) 9
+4 Adventurous Impulse (STA) 49
+4 Approach of the Second Sun (STA) 1
+4 Blue Sun's Zenith (STA) 12
+4 Compulsive Research (STA) 14
+4 Day of Judgment (STA) 2
+4 Defiant Strike (STA) 3
+4 Divine Gambit (STA) 4
+4 Eliminate (STA) 29
+4 Inquisition of Kozilek (STA) 31
+4 Primal Command (STA) 55
+4 Snakeskin Veil (STA) 57
+4 Agonizing Remorse (STA) 24
+4 Abundant Harvest (STA) 48
+4 Tendrils of Agony (STA) 34
+4 Ephemerate (STA) 6
+4 Duress (STA) 25
+4 Shock (STA) 44
+4 Negate (STA) 18
+4 Infernal Grasp (STA) 30
+4 Crux of Fate (STA) 33
+4 Grapeshot (STA) 39
+4 Electrolyze (STA) 60
+4 Anthracite Beckons (STA) 40
+4 Revitalize (STA) 11
+4 Bloodchief's Thirst (STA) 41
+4 Cultivate (STA) 51
+4 Doubling Season (WOT) 7
+4 Parallel Lives (WOT) 17
+4 Rhystic Study (WOT) 41
+4 Necropotence (WOT) 14
+4 Smothering Tithe (WOT) 5
+4 Land Tax (WOT) 3
+4 Omniscience (WOT) 16
+4 Rest in Peace (WOT) 4
+4 Stony Silence (WOT) 6
+4 Blood Moon (WOT) 30
+4 Aggravated Assault (WOT) 29
+4 Animate Dead (WOT) 10
+4 Bitterblossom (WOT) 11
+4 Grave Pact (WOT) 13
+4 Leyline of the Void (WOT) 15
+4 Utopia Sprawl (WOT) 28
+4 Wild Growth (WOT) 27
+4 Spreading Seas (WOT) 42
+4 Hardened Scales (WOT) 22
+4 Ethereal Armor (WOT) 1
+4 Intangible Virtue (WOT) 2
+4 Monastery Siege (WOT) 40
+4 As Foretold (WOT) 37
+4 Waste Not (WOT) 20
+4 Tribute to the World Tree (WOT) 26
+4 Sylvan Library (WOT) 25
+4 Kindred Discovery (WOT) 39
+4 Fiery Emancipation (WOT) 31
+4 Impact Tremors (WOT) 32
+4 Frantic Search (WOT) 38
+4 Reconnaissance Mission (WOT) 43
+4 Hateful Eidolon (WOT) 12
+4 Oversold Cemetery (WOT) 18
+4 Court of Grace (WOT) 44
+4 Dragon Mantle (WOT) 33
+4 Greater Auramancy (WOT) 8
+4 Defense of the Heart (WOT) 21
+4 Unnatural Growth (WOT) 24
+4 Up the Beanstalk (WOT) 46
+4 Astral Slide (WOT) 47
+4 Virtue of Loyalty (WOT) 48
+4 Repercussion (WOT) 35
+4 Sanguine Bond (WOT) 19
+4 Goblin Bombardment (WOT) 34
+4 Shared Animosity (WOT) 36
+4 Audacity (WOT) 49
+4 Destiny Spinner (WOT) 50
+4 Garruk's Uprising (WOT) 23
+4 Careful Cultivation (WOT) 51
+4 Mechanized Production (WOT) 52
+4 Fevered Visions (WOT) 53
+4 Polluted Bonds (WOT) 54
+4 Curator of Sun's Creation (WOT) 55
+4 Knightly Valor (WOT) 56
+4 Eldrazi Conscription (WOT) 9
+16 Library of Alexandria
